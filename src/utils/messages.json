@@ -1,0 +1,68 @@
+{
+  "validation": {
+    "required": "is required",
+    "email": {
+      "invalid": "must be a valid email",
+      "exists": "The user with entered email already exists"
+    },
+    "password": {
+      "invalid": "must contain at least one lowercase, one uppercase, one number, and one special character",
+      "required": "Password is required",
+      "minCharacters": "Password must include at least 6 characters",
+      "numberCharacter": "Password must include at least one number",
+      "lowercaseCharacter": "Password must include at least one lowercase character",
+      "uppercaseCharacter": "Password must include at least one uppercase character",
+      "specialCharacter": "Password must include at least one special character",
+      "reset": "If the user with entered email exists, a reset link will be sent"
+    },
+    "objectId": {
+      "invalid": "is not a valid ObjectId"
+    },
+    "contentType": {
+      "invalid": "image format is the only accepted file type for uploads"
+    },
+    "date": {
+      "format": "must be entered in YYYY-MM-DD format",
+      "invalid": "can not be in the future"
+    },
+    "anyOnly": {
+      "invalid": "and password do not match"
+    },
+    "binaryMax": {
+      "invalid": "size must be less than or equal to 5 MB"
+    }
+  },
+  "contact": {
+    "notFound": "Contact is not found",
+    "notExists": "Contact with the provided ID does not exist",
+    "noAddedContacts": "You don't have added contacts.",
+    "added": "Contact successfully added",
+    "updated": "Successfully updated user data",
+    "deleted": "Contact successfully deleted",
+    "failed": "Failed to save contact",
+    "favorite": {
+      "added": "Successfully added to favorites",
+      "removed": "Successfully removed from favorites"
+    }
+  },
+  "image": {
+    "notProvided": "Image is not provided",
+    "uploaded": "Successfully uploaded image.",
+    "reset": "Successfully reset user image."
+  },
+  "auth": {
+    "registered": "You have successfully registered",
+    "loggedIn": "You have successfully logged in",
+    "loggedOut": "You have successfully logged out",
+    "unauthorized": "Unauthorized: You are not authenticated",
+    "invalidToken": "Invalid or expired token",
+    "incorrectCredentials": "Incorrect credentials. Please check and try again",
+    "resetPassword": "If the entered email address is associated with a registered user, we have sent you an email with instructions for resetting the password.",
+    "successfullyResetPassword": "Password successfully reset",
+    "deletedProfile": "Successfully deleted profile."
+  },
+  "user": {
+    "notFound": "User is not found.",
+    "notExists": "The user with the entered email does not exist"
+  }
+}
