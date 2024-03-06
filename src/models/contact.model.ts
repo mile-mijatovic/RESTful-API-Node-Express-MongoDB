@@ -3,6 +3,7 @@ import { NotFoundError, ValidationError } from "../errors";
 import messages from "../utils/messages.json";
 import {
   ContactModel,
+  FilterOptions,
   IContact,
   IQuery,
   PaginationOptions,
@@ -71,7 +72,7 @@ class ContactClass extends Model {
 
   static async getAll(
     options: PaginationOptions,
-    filter?: Record<string, any>
+    filter?: FilterOptions
   ): Promise<QueryResult> {
     const { addedBy, page, limit } = options;
 
@@ -79,10 +80,19 @@ class ContactClass extends Model {
     const contactsPerPage = getHighestNumber(limit);
     const skip = (currentPage - 1) * contactsPerPage;
 
-    const contactPromise: IContact[] = await this.find({
-      addedBy,
-      ...filter,
-    })
+    let query = { addedBy };
+
+    if (filter) {
+      Object.keys(filter).forEach((key: string) => {
+        const value = filter[key];
+        if (typeof value === "string") {
+          query[key] = { $regex: value, $options: "i" };
+        } else {
+          query[key] = value;
+        }
+      });
+    }
+    const contactPromise: IContact[] = await this.find(query)
       .skip(skip)
       .limit(contactsPerPage)
       .sort({ createdAt: -1 });

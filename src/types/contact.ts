@@ -35,6 +35,15 @@ export interface PaginationOptions {
   limit: string;
 }
 
+export interface FilterOptions {
+  firstName?: string;
+  lastName?: string;
+  contact?: {
+    telephoneNumber?: string;
+    email?: string;
+  };
+}
+
 export interface QueryResult {
   pagination: {
     page: number;
