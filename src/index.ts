@@ -5,7 +5,7 @@ import session from "express-session";
 // Routes
 import contactRoutes from "./routes/contacts.route";
 import profileRoutes from "./routes/profile.route";
-import userRoutes from "./routes/user.route";
+import authRoutes from "./routes/auth.route";
 
 import config from "./config/env";
 import { connectToDatabase, store } from "./config/mongo";
@@ -48,7 +48,7 @@ const startServer = async () => {
     })
   );
 
-  app.use("/api/user", userRoutes);
+  app.use("/api/auth", authRoutes);
   app.use("/api/contacts", contactRoutes);
   app.use("/api/profile", profileRoutes);
 
