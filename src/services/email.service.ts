@@ -21,8 +21,7 @@ class EmailService {
 
   async sendResetPasswordEmail(to: string, token: string): Promise<void> {
     const subject = "Reset password";
-    // replace this url with the link to the reset password page of your front-end app
-    const resetPasswordUrl = `http://${config.clientUrl}/api/user/reset-password?token=${token}`;
+    const resetPasswordUrl = `${config.clientUrl}/api/auth/reset-password?token=${token}`;
 
     const html = `<div style="padding:10px;">
     <p>Dear user,</p>
