@@ -2,9 +2,9 @@ import { Model, model, Schema } from "mongoose";
 import { IToken, TokenModel } from "../types/token";
 
 const tokenSchema = new Schema<IToken, TokenModel>({
-  token: { type: String, require: true },
-  userId: { type: Schema.Types.ObjectId, ref: "User", require: true },
-  expires: { type: Date, require: true },
+  token: { type: String, required: true },
+  userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
+  expires: { type: Date, required: true },
 });
 
 class TokenClass extends Model<TokenModel> {
