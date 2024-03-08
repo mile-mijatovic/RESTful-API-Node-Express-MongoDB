@@ -6,7 +6,7 @@
       "exists": "The user with entered email already exists"
     },
     "password": {
-      "invalid": "must contain at least one lowercase, one uppercase, one number, and one special character",
+      "invalid": "must contain at least 8 characters, one lowercase, one uppercase, one number, and one special character",
       "required": "Password is required",
       "minCharacters": "Password must include at least 6 characters",
       "numberCharacter": "Password must include at least one number",

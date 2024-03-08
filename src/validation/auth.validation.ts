@@ -1,5 +1,5 @@
 import Joi from "joi";
-import { objectId, passwordRegex } from "./regexPatterns";
+import { passwordRegex } from "./regexPatterns";
 import { ValidationSchema } from "../types/enums";
 
 export const loginSchema = {
