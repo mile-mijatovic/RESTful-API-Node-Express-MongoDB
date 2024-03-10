@@ -35,7 +35,7 @@ const getJoiMessage = (error: ValidationErrorItem) => {
 
 interface ErrorResponse {
   statusCode: HttpStatusCode;
-  message: string[];
+  message: string[] | string;
 }
 
 const parseJoiErrors = (error: Joi.ValidationError) => {
@@ -58,12 +58,12 @@ const generateErrorMessage = (
   }
 
   if (error instanceof ApiError) {
-    return { statusCode: error.status, message: [error.message] };
+    return { statusCode: error.status, message: error.message };
   }
 
   return {
     statusCode: HttpStatusCode.INTERNAL_SERVER_ERROR,
-    message: [error.message],
+    message: error.message,
   };
 };
 
