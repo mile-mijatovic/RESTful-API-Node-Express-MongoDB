@@ -3,7 +3,7 @@
     "required": "is required",
     "email": {
       "invalid": "must be a valid email",
-      "exists": "The user with entered email already exists"
+      "exists": "The user with the entered email already exists"
     },
     "password": {
       "invalid": "must contain at least 8 characters, one lowercase, one uppercase, one number, and one special character",
@@ -12,8 +12,7 @@
       "numberCharacter": "Password must include at least one number",
       "lowercaseCharacter": "Password must include at least one lowercase character",
       "uppercaseCharacter": "Password must include at least one uppercase character",
-      "specialCharacter": "Password must include at least one special character",
-      "reset": "If the user with entered email exists, a reset link will be sent"
+      "specialCharacter": "Password must include at least one special character"
     },
     "objectId": {
       "invalid": "is not a valid ObjectId"
@@ -23,7 +22,7 @@
     },
     "date": {
       "format": "must be entered in YYYY-MM-DD format",
-      "invalid": "can not be in the future"
+      "invalid": "cannot be in the future"
     },
     "anyOnly": {
       "invalid": "and password do not match"
@@ -34,10 +33,10 @@
   },
   "contact": {
     "notFound": "Contact is not found",
-    "notExists": "Contact with the provided ID does not exist",
-    "noAddedContacts": "You don't have added contacts.",
+    "notExists": "The contact with the provided ID does not exist",
+    "noAddedContacts": "You don't have added contacts",
     "added": "Contact successfully added",
-    "updated": "Successfully updated user data",
+    "updated": "User data successfully updated",
     "deleted": "Contact successfully deleted",
     "failed": "Failed to save contact",
     "favorite": {
@@ -47,22 +46,22 @@
   },
   "image": {
     "notProvided": "Image is not provided",
-    "uploaded": "Successfully uploaded image.",
-    "reset": "Successfully reset user image."
+    "uploaded": "Image successfully uploaded",
+    "reset": "User image successfully reset"
   },
   "auth": {
-    "registered": "You have successfully registered",
-    "loggedIn": "You have successfully logged in",
-    "loggedOut": "You have successfully logged out",
+    "registered": "You have been successfully registered",
+    "loggedIn": "You have been successfully logged in",
+    "loggedOut": "You have been successfully logged out",
     "unauthorized": "Unauthorized: You are not authenticated",
     "invalidToken": "Invalid or expired token",
     "incorrectCredentials": "Incorrect credentials. Please check and try again",
-    "resetPassword": "If the entered email address is associated with a registered user, we have sent you an email with instructions for resetting the password.",
-    "successfullyResetPassword": "Password successfully reset",
-    "deletedProfile": "Successfully deleted profile."
+    "resetPassword": "If the user with the entered email exists, a reset link will be sent",
+    "successfullyResetPassword": "Password has been changed successfully",
+    "deletedProfile": "Profile successfully deleted"
   },
   "user": {
-    "notFound": "User is not found.",
+    "notFound": "User not found",
     "notExists": "The user with the entered email does not exist"
   }
 }
