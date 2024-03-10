@@ -4,14 +4,17 @@
     "email": {
       "invalid": "must be a valid email",
       "exists": "The user with the entered email already exists"
+      "exists": "The user with the entered email already exists"
     },
     "password": {
+      "invalid": "must contain at least 8 characters, one lowercase, one uppercase, one number, and one special character",
       "invalid": "must contain at least 8 characters, one lowercase, one uppercase, one number, and one special character",
       "required": "Password is required",
       "minCharacters": "Password must include at least 6 characters",
       "numberCharacter": "Password must include at least one number",
       "lowercaseCharacter": "Password must include at least one lowercase character",
       "uppercaseCharacter": "Password must include at least one uppercase character",
+      "specialCharacter": "Password must include at least one special character"
       "specialCharacter": "Password must include at least one special character"
     },
     "objectId": {
@@ -22,6 +25,7 @@
     },
     "date": {
       "format": "must be entered in YYYY-MM-DD format",
+      "invalid": "cannot be in the future"
       "invalid": "cannot be in the future"
     },
     "anyOnly": {
@@ -35,7 +39,10 @@
     "notFound": "Contact is not found",
     "notExists": "The contact with the provided ID does not exist",
     "noAddedContacts": "You don't have added contacts",
+    "notExists": "The contact with the provided ID does not exist",
+    "noAddedContacts": "You don't have added contacts",
     "added": "Contact successfully added",
+    "updated": "User data successfully updated",
     "updated": "User data successfully updated",
     "deleted": "Contact successfully deleted",
     "failed": "Failed to save contact",
@@ -48,8 +55,13 @@
     "notProvided": "Image is not provided",
     "uploaded": "Image successfully uploaded",
     "reset": "User image successfully reset"
+    "uploaded": "Image successfully uploaded",
+    "reset": "User image successfully reset"
   },
   "auth": {
+    "registered": "You have been successfully registered",
+    "loggedIn": "You have been successfully logged in",
+    "loggedOut": "You have been successfully logged out",
     "registered": "You have been successfully registered",
     "loggedIn": "You have been successfully logged in",
     "loggedOut": "You have been successfully logged out",
@@ -61,6 +73,7 @@
     "deletedProfile": "Profile successfully deleted"
   },
   "user": {
+    "notFound": "User not found",
     "notFound": "User not found",
     "notExists": "The user with the entered email does not exist"
   }
