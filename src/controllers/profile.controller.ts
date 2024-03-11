@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { NotFoundError } from "../errors";
+import { ValidationError } from "../errors";
 import User from "../models/user.model";
 import { asyncHandler } from "../utils";
 import messages from "../utils/messages.json";
@@ -18,7 +18,7 @@ export const uploadImage = asyncHandler(async (req: Request, res: Response) => {
   const { id } = req.user;
 
   if (!req.file) {
-    throw new NotFoundError(messages.image.notProvided);
+    throw new ValidationError(messages.image.notProvided);
   }
 
   const { path: imagePath, filename, mimetype } = req.file;
