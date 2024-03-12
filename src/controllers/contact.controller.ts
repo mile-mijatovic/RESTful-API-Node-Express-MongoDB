@@ -25,7 +25,7 @@ export const getContacts = asyncHandler(async (req: Request, res: Response) => {
     });
   }
 
-  res.status(200).json({ success: true, contacts });
+  return res.status(200).json({ success: true, contacts });
 });
 
 export const getContactById = asyncHandler(
