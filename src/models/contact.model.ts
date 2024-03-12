@@ -61,9 +61,13 @@ const contactSchema = new Schema<IContact, ContactModel>({
 });
 
 class ContactClass extends Model {
-  static async isEmailExists(email: string): Promise<boolean> {
+  static async isEmailExists(
+    email: string,
+    addedBy: ObjectId
+  ): Promise<boolean> {
     const query: Query = {
       "contact.email": email,
+      addedBy,
     };
 
     const exist = await this.findOne(query);
@@ -139,14 +143,14 @@ class ContactClass extends Model {
     return contact;
   }
 
-  static async add(body: IContact, contactId: ObjectId): Promise<IContact> {
-    const exists = await this.isEmailExists(body.contact.email);
+  static async add(body: IContact, addedBy: ObjectId): Promise<IContact> {
+    const exists = await this.isEmailExists(body.contact.email, addedBy);
 
-    if (exists) throw new ValidationError(messages.validation.email.exists);
+    if (exists) throw new ValidationError(messages.contact.exists);
 
     const savedContact: IContact = await this.create({
       ...body,
-      addedBy: contactId,
+      addedBy,
     });
 
     if (!savedContact) {

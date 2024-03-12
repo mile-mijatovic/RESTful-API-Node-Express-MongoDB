@@ -70,7 +70,7 @@ export interface ContactModel extends Model<IContact> {
     filter?: Record<string, any>
   ): Promise<QueryResult>;
   getById(contactId: string, addedBy: ObjectId): Promise<IContact>;
-  add(body: IContact, contactId: ObjectId): Promise<void>;
+  add(body: IContact, addedBy: ObjectId): Promise<void>;
   update(body: IContact, contactId: string, addedBy: ObjectId): Promise<void>;
   delete(contactId: string, addedBy: ObjectId): Promise<void>;
 }

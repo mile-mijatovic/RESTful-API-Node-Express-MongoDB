@@ -33,6 +33,7 @@
   },
   "contact": {
     "notFound": "Contact is not found",
+    "exists": "The user with the entered email already exists",
     "notExists": "The contact with the provided ID does not exist",
     "noAddedContacts": "You don't have added contacts",
     "added": "Contact successfully added",
