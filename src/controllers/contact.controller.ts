@@ -19,8 +19,7 @@ export const getContacts = asyncHandler(async (req: Request, res: Response) => {
 
   if (contacts.contacts.length === 0) {
     return res.status(200).json({
-      warning: true,
-      message: messages.contact.noAddedContacts,
+      success: true,
       contacts: [],
     });
   }
