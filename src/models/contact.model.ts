@@ -13,15 +13,9 @@ import {
 import { getHighestNumber, roundNumberToNearestInteger } from "../utils";
 
 const contactSchema = new Schema<IContact, ContactModel>({
-  firstName: {
-    type: String,
-    required: true,
-  },
-  lastName: {
-    type: String,
-    required: true,
-  },
   contact: {
+    firstName: { type: String, required: true },
+    lastName: { type: String, required: true },
     telephoneNumber: String,
     mobileNumber: String,
     fax: String,
@@ -29,9 +23,7 @@ const contactSchema = new Schema<IContact, ContactModel>({
       type: String,
       required: true,
     },
-    image: {
-      type: String,
-    },
+    image: String,
   },
   address: {
     street: { type: String, required: true },
