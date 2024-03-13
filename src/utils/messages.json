@@ -15,7 +15,7 @@
       "specialCharacter": "Password must include at least one special character"
     },
     "objectId": {
-      "invalid": "is not a valid ObjectId"
+      "invalid": "is not a valid. Please check and try again."
     },
     "contentType": {
       "invalid": "image format is the only accepted file type for uploads"
