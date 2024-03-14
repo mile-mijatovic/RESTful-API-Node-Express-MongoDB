@@ -33,11 +33,11 @@
   },
   "contact": {
     "notFound": "Contact is not found",
-    "exists": "The user with the entered email already exists",
+    "exists": "The contact with the entered email already exists",
     "notExists": "The contact with the provided ID does not exist",
     "noAddedContacts": "You don't have added contacts",
     "added": "Contact successfully added",
-    "updated": "User data successfully updated",
+    "updated": "Contact data successfully updated",
     "deleted": "Contact successfully deleted",
     "failed": "Failed to save contact",
     "favorite": {
