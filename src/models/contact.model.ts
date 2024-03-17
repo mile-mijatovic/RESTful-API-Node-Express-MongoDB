@@ -81,10 +81,11 @@ class ContactClass extends Model {
     if (filter) {
       Object.keys(filter).forEach((key: string) => {
         const value = filter[key];
+        const k = `contact.${key}`;
         if (typeof value === "string") {
-          query[key] = { $regex: value, $options: "i" };
+          query[k] = { $regex: value, $options: "i" };
         } else {
-          query[key] = value;
+          query[k] = value;
         }
       });
     }

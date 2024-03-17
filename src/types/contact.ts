@@ -36,10 +36,11 @@ export interface PaginationOptions {
 }
 
 export interface FilterOptions {
-  firstName?: string;
-  lastName?: string;
-  contact?: {
+  contact: {
+    firstName?: string;
+    lastName?: string;
     telephoneNumber?: string;
+    mobileNumber?: string;
     email?: string;
   };
 }
