@@ -136,7 +136,7 @@ class ContactClass extends Model {
     return contact;
   }
 
-  static async add(body: IContact, addedBy: ObjectId): Promise<IContact> {
+  static async add(body: IContact, addedBy: ObjectId): Promise<void> {
     const exists = await this.isEmailExists(body.contact.email, addedBy);
 
     if (exists) throw new ValidationError(messages.contact.exists);
@@ -149,8 +149,6 @@ class ContactClass extends Model {
     if (!savedContact) {
       throw new NotFoundError(messages.contact.failed);
     }
-
-    return savedContact;
   }
 
   static async update(body: IContact, contactId: string, addedBy: ObjectId) {

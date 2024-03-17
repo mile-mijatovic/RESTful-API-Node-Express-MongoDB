@@ -47,12 +47,11 @@ export const addNewContact = asyncHandler(
     const { id } = req.user;
     const contactData = req.body as IContact;
 
-    const savedContact = await Contact.add(contactData, id);
+    await Contact.add(contactData, id);
 
     return res.status(201).json({
       success: true,
       message: messages.contact.added,
-      contact: savedContact,
     });
   }
 );
