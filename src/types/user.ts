@@ -14,6 +14,12 @@ export interface ILogin {
   password: string;
 }
 
+export interface IChangePassword {
+  oldPassword: string;
+  newPassword: string;
+  repeatPassword: string;
+}
+
 export interface IUserDoc extends IUser, Document {}
 
 export interface IUploadRequest extends Request {
@@ -26,12 +32,8 @@ export interface IUserModel extends Model<IUserDoc> {
   register(user: IUser): Promise<void>;
   forgotPassword(email: string): Promise<void>;
   resetPassword(token: string, newPassword: string): Promise<void>;
-  uploadImage(
-    userId: ObjectId,
-    imagePath: string,
-    filename: string,
-    mimetype: string
-  ): Promise<void>;
+  uploadImage(userId: ObjectId, filename: string): Promise<void>;
+  changePassword(id: ObjectId, payload: IChangePassword): Promise<void>;
   resetImage(id: ObjectId): Promise<void>;
   delete(id: ObjectId): Promise<number>;
 }

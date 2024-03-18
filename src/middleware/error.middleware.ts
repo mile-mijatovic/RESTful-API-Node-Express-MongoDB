@@ -13,7 +13,10 @@ const getJoiMessage = (error: ValidationErrorItem) => {
     case "string.pattern.base":
       if (error.context?.key === "email") {
         return messages.validation.email.invalid;
-      } else if (error.context?.key === "password") {
+      } else if (
+        error.context?.key === "password" ||
+        error.context?.key === "newPassword"
+      ) {
         return messages.validation.password.invalid;
       } else if (error.context?.key === "contactId") {
         return messages.validation.objectId.invalid;

@@ -8,6 +8,8 @@
     "password": {
       "invalid": "must contain at least 8 characters, one lowercase, one uppercase, one number, and one special character",
       "required": "Password is required",
+      "incorrect": "Incorrect old password",
+      "notMatch": "Password and repeated password do not match",
       "minCharacters": "Password must include at least 6 characters",
       "numberCharacter": "Password must include at least one number",
       "lowercaseCharacter": "Password must include at least one lowercase character",

@@ -6,7 +6,7 @@ import {
 } from "./auth.validation";
 import contactSchema from "./contact.validation";
 import envVarsSchema from "./env.validation";
-import uploadSchema from "./profile.validation";
+import { uploadSchema, changePasswordSchema } from "./profile.validation";
 import objectIdSchema from "./objectId.validation";
 
 export {
@@ -17,5 +17,6 @@ export {
   loginSchema,
   registerSchema,
   uploadSchema,
+  changePasswordSchema,
   objectIdSchema,
 };

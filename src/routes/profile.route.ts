@@ -5,9 +5,10 @@ import {
   getUserInfo,
   resetImage,
   uploadImage,
+  changePassword,
 } from "../controllers/profile.controller";
 import { requireAuth, validation } from "../middleware";
-import { uploadSchema } from "../validation";
+import { changePasswordSchema, uploadSchema } from "../validation";
 
 const router = Router();
 
@@ -17,6 +18,7 @@ router
   .get("/", getUserInfo)
   .patch("/", upload.single("image"), validation(uploadSchema), uploadImage)
   .patch("/reset-image", resetImage)
+  .patch("/change-password", validation(changePasswordSchema), changePassword)
   .delete("/", closeProfile);
 
 export default router;

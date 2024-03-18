@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 import messages from "../utils/messages.json";
 import { AuthenticationError } from "../errors";
-import jwt, { JwtPayload } from "jsonwebtoken";
 import config from "../config/env";
+import { verifyToken } from "../utils";
 
 const requireAuth = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -10,10 +10,10 @@ const requireAuth = async (req: Request, res: Response, next: NextFunction) => {
       return next(new AuthenticationError(messages.auth.unauthorized));
     }
 
-    const decodedToken = jwt.verify(
+    const decodedToken = await verifyToken(
       req.session.token,
       config.jwt.secret
-    ) as JwtPayload;
+    );
 
     if (!decodedToken) {
       return next(new AuthenticationError(messages.auth.unauthorized));
