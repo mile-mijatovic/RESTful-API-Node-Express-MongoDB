@@ -3,7 +3,7 @@
   "ignore": [".git", "node_modules/**/node_modules"],
   "watch": ["**/*.ts", "types/**/*.ts"],
   "ext": "ts",
-  "exec": "ts-node-esm ./src/index.ts",
+  "exec": "npx tsx ./src/index.ts",
   "env": {
     "NODE_ENV": "development"
   },
