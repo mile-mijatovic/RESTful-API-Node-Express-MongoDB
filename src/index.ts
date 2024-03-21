@@ -14,6 +14,7 @@ import { errorHandler, notFoundHandler } from "./middleware";
 const app: Application = express();
 const PORT = config.port;
 const isProduction = process.env.NODE_ENV === "production";
+const prefix = isProduction ? "/address-book" : "";
 
 const startServer = async () => {
   await connectToDatabase();
@@ -48,9 +49,9 @@ const startServer = async () => {
     })
   );
 
-  app.use("/api/auth", authRoutes);
-  app.use("/api/contacts", contactRoutes);
-  app.use("/api/profile", profileRoutes);
+  app.use(`${prefix}/api/auth`, authRoutes);
+  app.use(`${prefix}/api/contacts`, contactRoutes);
+  app.use(`${prefix}/api/profile`, profileRoutes);
 
   app.use(notFoundHandler);
   app.use(errorHandler);
