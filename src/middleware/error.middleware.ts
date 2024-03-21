@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import messages from "../utils/messages.json";
+import messages from "../assets/json/messages.json";
 import { ApiError } from "../errors";
 import Joi, { ValidationErrorItem } from "joi";
 import { HttpStatusCode } from "../types/enums";

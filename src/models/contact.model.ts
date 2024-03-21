@@ -1,6 +1,6 @@
 import { Model, model, ObjectId, Schema } from "mongoose";
 import { NotFoundError, ValidationError } from "../errors";
-import messages from "../utils/messages.json";
+import messages from "../assets/json/messages.json";
 import {
   ContactModel,
   FilterOptions,

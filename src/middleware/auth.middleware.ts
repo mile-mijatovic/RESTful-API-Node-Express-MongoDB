@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import messages from "../utils/messages.json";
+import messages from "../assets/json/messages.json";
 import { AuthenticationError } from "../errors";
 import config from "../config/env";
 import { verifyToken } from "../utils";

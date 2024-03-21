@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import Contact from "../models/contact.model";
 import { IContact, PaginationOptions } from "../types/contact";
 import { asyncHandler } from "../utils";
-import messages from "../utils/messages.json";
+import messages from "../assets/json/messages.json";
 
 export const getContacts = asyncHandler(async (req: Request, res: Response) => {
   const { id } = req.user;

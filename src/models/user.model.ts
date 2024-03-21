@@ -22,7 +22,7 @@ import {
   joinPaths,
   verifyPassword,
 } from "../utils";
-import messages from "../utils/messages.json";
+import messages from "../assets/json/messages.json";
 import Token from "./token.model";
 
 const userSchema = new Schema<IUserDoc, IUserModel>(
@@ -91,7 +91,7 @@ class UserClass extends Model<IUserModel> {
     }
 
     const token = generateToken({ userId: user._id }, config.jwt.secret, {
-      expiresIn: "15m",
+      expiresIn: config.jwt.accessExpirationMinutes,
     });
 
     return token;
@@ -144,7 +144,6 @@ class UserClass extends Model<IUserModel> {
   }
 
   static async changePassword(userId: ObjectId, password: IChangePassword) {
-    console.log(password);
     const { newPassword, oldPassword, repeatPassword } = password;
 
     if (newPassword !== repeatPassword) {
@@ -196,7 +195,7 @@ userSchema.loadClass(UserClass);
 
 userSchema.pre("save", async function (next) {
   if (this.isModified("password")) {
-    await hashPassword(this.password);
+    this.password = await hashPassword(this.password);
   }
   next();
 });

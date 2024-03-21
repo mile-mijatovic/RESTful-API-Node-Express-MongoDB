@@ -3,7 +3,7 @@ import { AuthenticationError } from "../errors";
 import User from "../models/user.model";
 import { IUser } from "../types/user";
 import { asyncHandler } from "../utils";
-import messages from "../utils/messages.json";
+import messages from "../assets/json/messages.json";
 
 // Register new user
 export const register = asyncHandler(

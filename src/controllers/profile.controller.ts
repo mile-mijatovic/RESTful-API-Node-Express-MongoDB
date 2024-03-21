@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { ValidationError } from "../errors";
 import User from "../models/user.model";
 import { asyncHandler, deleteFile, readFile } from "../utils";
-import messages from "../utils/messages.json";
+import messages from "../assets/json/messages.json";
 import { uploadSchema } from "../validation";
 
 export const getUserInfo = asyncHandler(async (req: Request, res: Response) => {
@@ -59,8 +59,6 @@ export const resetImage = asyncHandler(async (req: Request, res: Response) => {
 export const changePassword = asyncHandler(
   async (req: Request, res: Response) => {
     const { id } = req.user;
-
-    console.log("a", req.body);
     await User.changePassword(id, req.body);
 
     return res.status(200).json({

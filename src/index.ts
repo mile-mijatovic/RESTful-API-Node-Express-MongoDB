@@ -44,7 +44,7 @@ const startServer = async () => {
       cookie: {
         httpOnly: isProduction,
         secure: isProduction,
-        maxAge: config.session.cookie.expiration,
+        maxAge: +config.session.cookie.expiration,
       },
     })
   );

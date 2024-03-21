@@ -8,6 +8,9 @@ const envSchema = Joi.object({
   JWT_SECRET: Joi.string().required().messages({
     "any.required": "JWT_SECRET is a required field",
   }),
+  JWT_ACCESS_EXPIRATION_MINUTES: Joi.string().messages({
+    "any.required": "JWT_ACCESS_EXPIRATION_MINUTES must be a string",
+  }),
   SALT: Joi.number().messages({
     "number.base": "SALT must be a number",
     "number.integer": "SALT must be an integer",
@@ -29,8 +32,8 @@ const envSchema = Joi.object({
   SESSION_SECRET: Joi.string().required().messages({
     "any.required": "SESSION_SECRET is a required field",
   }),
-  COOKIE_EXPIRATION_MINUTES: Joi.string().required().messages({
-    "any.required": "COOKIE_EXPIRATION_MINUTES is a required field",
+  COOKIE_EXPIRATION: Joi.string().required().messages({
+    "any.required": "COOKIE_EXPIRATION is a required field",
   }),
   SMTP_HOST: Joi.string().required().messages({
     "any.required": "SMTP_HOST is a required field",
