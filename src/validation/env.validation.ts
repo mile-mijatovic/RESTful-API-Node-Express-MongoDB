@@ -12,9 +12,6 @@ const envSchema = Joi.object({
     "number.base": "SALT must be a number",
     "number.integer": "SALT must be an integer",
   }),
-  DATABASE_URL: Joi.string().uri().messages({
-    "string.uri": "DATABASE_URL must be a valid URI",
-  }),
   BCRYPT_SALT: Joi.number().messages({
     "number.base": "BCRYPT_SALT must be a number",
     "number.integer": "BCRYPT_SALT must be an integer",
@@ -31,6 +28,9 @@ const envSchema = Joi.object({
   }),
   SESSION_SECRET: Joi.string().required().messages({
     "any.required": "SESSION_SECRET is a required field",
+  }),
+  COOKIE_EXPIRATION_MINUTES: Joi.string().required().messages({
+    "any.required": "COOKIE_EXPIRATION_MINUTES is a required field",
   }),
   SMTP_HOST: Joi.string().required().messages({
     "any.required": "SMTP_HOST is a required field",

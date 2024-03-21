@@ -28,7 +28,7 @@ const startServer = async () => {
     cors({
       credentials: true,
       // TODO: Update production origin url
-      origin: isProduction ? "*" : "http://localhost:3000",
+      origin: isProduction ? "*" : config.clientUrl,
     })
   );
 
@@ -43,7 +43,7 @@ const startServer = async () => {
       cookie: {
         httpOnly: isProduction,
         secure: isProduction,
-        maxAge: 15 * 60 * 1000,
+        maxAge: config.session.cookie.expiration,
       },
     })
   );
@@ -66,11 +66,11 @@ const startServer = async () => {
   app.on("error", (error: any) => {
     switch (error.code) {
       case "EACCES":
-        console.error(`${config.port} requires elevated privileges`);
+        console.error(`${PORT} requires elevated privileges`);
         break;
 
       case "EADDRINUSE":
-        console.error(`${config.port} is already in use.`);
+        console.error(`${PORT} is already in use.`);
         break;
 
       default:
