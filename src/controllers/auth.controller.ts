@@ -1,17 +1,17 @@
-import { NextFunction, Request, Response } from "express";
-import { AuthenticationError } from "../errors";
-import User from "../models/user.model";
-import { IUser } from "../types/user";
-import { asyncHandler } from "../utils";
-import messages from "../assets/json/messages.json";
+import { NextFunction, Request, Response } from 'express';
+import { AuthenticationError } from '../errors';
+import { IUser } from '../types/user';
+import { asyncHandler } from '../utils';
+import messages from '../assets/json/messages.json';
+import { UserService } from '../services';
 
 // Register new user
 export const register = asyncHandler(
   async (req: Request<IUser>, res: Response) => {
-    await User.register(req.body);
+    await UserService.register(req.body);
 
     return res
-      .status(200)
+      .status(201)
       .json({ success: true, message: messages.auth.registered });
   }
 );
@@ -19,7 +19,7 @@ export const register = asyncHandler(
 // Login with email and password
 export const login = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
-    const token = await User.authenticateWithToken(req.body);
+    const token = await UserService.authenticate(req.body);
 
     req.session.token = token;
 
@@ -29,9 +29,10 @@ export const login = asyncHandler(
   }
 );
 
+// Send password reset email
 export const forgotPassword = asyncHandler(
   async (req: Request, res: Response) => {
-    await User.forgotPassword(req.body.email);
+    await UserService.sendPasswordResetEmail(req.body.email);
 
     return res.status(200).json({
       success: true,
@@ -40,12 +41,13 @@ export const forgotPassword = asyncHandler(
   }
 );
 
+// Reset password
 export const resetPassword = asyncHandler(
   async (req: Request, res: Response) => {
     const { token } = req.query;
     const { newPassword } = req.body;
 
-    await User.resetPassword(token as string, newPassword);
+    await UserService.resetPassword(token as string, newPassword);
 
     return res.status(200).json({
       success: true,

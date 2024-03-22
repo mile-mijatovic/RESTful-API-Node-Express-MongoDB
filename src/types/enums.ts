@@ -10,7 +10,8 @@ export enum HttpStatusCode {
 }
 
 export enum ValidationSchema {
-  BODY = "body",
-  QUERY = "query",
-  PARAMS = "params",
+  BODY = 'body',
+  QUERY = 'query',
+  PARAMS = 'params',
+  FORM_DATA = 'formData',
 }

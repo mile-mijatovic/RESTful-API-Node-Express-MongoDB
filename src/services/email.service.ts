@@ -1,14 +1,26 @@
-import nodemailer from "nodemailer";
-import config from "../config/env";
+import nodemailer from 'nodemailer';
+import config from '../config/env';
 
 class EmailService {
-  private transporter: nodemailer.Transporter;
+  private static transporter: nodemailer.Transporter;
 
-  constructor() {
-    this.transporter = nodemailer.createTransport(config.email.smtp);
+  static initializeTransporter() {
+    try {
+      this.transporter = nodemailer.createTransport(config.email.smtp);
+    } catch (error) {
+      console.error('Error initializing transporter:', error);
+    }
   }
 
-  async sendEmail(to: string, subject: string, html: string): Promise<void> {
+  static async sendEmail(
+    to: string,
+    subject: string,
+    html: string
+  ): Promise<void> {
+    if (!this.transporter) {
+      this.initializeTransporter();
+    }
+
     const mailOptions: nodemailer.SendMailOptions = {
       from: config.email.from,
       to,
@@ -16,11 +28,16 @@ class EmailService {
       html,
     };
 
+    this.transporter = nodemailer.createTransport(config.email.smtp);
+
     await this.transporter.sendMail(mailOptions);
   }
 
-  async sendResetPasswordEmail(to: string, token: string): Promise<void> {
-    const subject = "Reset password";
+  static async sendResetPasswordEmail(
+    to: string,
+    token: string
+  ): Promise<void> {
+    const subject = 'Reset password';
     const resetPasswordUrl = `${config.clientUrl}/api/auth/reset-password?token=${token}`;
 
     const html = `<div style="padding:10px;">
@@ -31,8 +48,8 @@ class EmailService {
     <p><strong>Address Book Support Team</strong></p>
     </div>`;
 
-    this.sendEmail(to, subject, html);
+    await this.sendEmail(to, subject, html);
   }
 }
 
-export default new EmailService();
+export default EmailService;

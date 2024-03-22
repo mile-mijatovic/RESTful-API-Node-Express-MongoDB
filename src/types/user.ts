@@ -1,4 +1,4 @@
-import { Document, Model, ObjectId } from "mongoose";
+import { Document, Model, ObjectId } from 'mongoose';
 
 export interface IUser {
   firstName: string;
@@ -28,12 +28,9 @@ export interface IUploadRequest extends Request {
 }
 
 export interface IUserModel extends Model<IUserDoc> {
-  authenticateWithToken(credentials: ILogin): Promise<string>;
-  register(user: IUser): Promise<void>;
-  forgotPassword(email: string): Promise<void>;
-  resetPassword(token: string, newPassword: string): Promise<void>;
-  uploadImage(userId: ObjectId, filename: string): Promise<void>;
-  changePassword(id: ObjectId, payload: IChangePassword): Promise<void>;
-  resetImage(id: ObjectId): Promise<void>;
-  delete(id: ObjectId): Promise<number>;
+  isEmailExists(email: string): Promise<boolean>;
+  getUserByEmail(email: string): Promise<IUserDoc | null>;
+  getUserById(id: ObjectId): Promise<IUserDoc | null>;
+  updateUser(userId: ObjectId, userData: Partial<IUser>): Promise<void | null>;
+  deleteUser(userId: ObjectId): Promise<number>;
 }
