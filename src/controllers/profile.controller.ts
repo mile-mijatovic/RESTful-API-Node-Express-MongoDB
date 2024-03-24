@@ -1,54 +1,44 @@
-import { NextFunction, Request, Response } from "express";
-import { ValidationError } from "../errors";
-import User from "../models/user.model";
-import { asyncHandler, deleteFile, readFile } from "../utils";
-import messages from "../assets/json/messages.json";
-import { uploadSchema } from "../validation";
+import { NextFunction, Request, Response } from 'express';
+import messages from '../assets/json/messages.json';
+import { ValidationError } from '../errors';
+import { UserService } from '../services';
+import { IChangePassword } from '../types/user';
+import { asyncHandler, deleteFile } from '../utils';
 
 export const getUserInfo = asyncHandler(async (req: Request, res: Response) => {
   const { id } = req.user;
 
-  const user = await User.findById({
-    _id: id,
-  }).select("-createdAt -updatedAt -__v -_id -password");
+  const user = await UserService.getUserInfo(id);
 
   return res.status(200).json({ success: true, user });
 });
 
-export const uploadImage = asyncHandler(
-  async (req: Request, res: Response, next: NextFunction) => {
-    const { id } = req.user;
+export const uploadImage = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { id } = req.user;
 
+  try {
     if (!req.file) {
       throw new ValidationError(messages.image.notProvided);
     }
 
-    const { path: imagePath, filename, mimetype } = req.file;
-
-    const binaryData = await readFile(imagePath);
-
-    const { error } = uploadSchema.validate({
-      image: { data: binaryData, contentType: mimetype },
-    });
-
-    if (error) {
-      await deleteFile(imagePath);
-      return next(error);
+    await UserService.updateUserImage(id, req.file);
+    res.status(200).json({ success: true, message: messages.image.uploaded });
+  } catch (error) {
+    if (req.file) {
+      await deleteFile(req.file.path);
     }
-
-    await User.uploadImage(id, filename);
-
-    return res.status(200).json({
-      success: true,
-      message: messages.image.uploaded,
-    });
+    next(error);
   }
-);
+};
 
 export const resetImage = asyncHandler(async (req: Request, res: Response) => {
   const { id } = req.user;
 
-  await User.resetImage(id);
+  await UserService.updateUserImage(id);
 
   return res.status(200).json({
     success: true,
@@ -57,9 +47,9 @@ export const resetImage = asyncHandler(async (req: Request, res: Response) => {
 });
 
 export const changePassword = asyncHandler(
-  async (req: Request, res: Response) => {
+  async (req: Request<IChangePassword>, res: Response) => {
     const { id } = req.user;
-    await User.changePassword(id, req.body);
+    await UserService.changePassword(id, req.body);
 
     return res.status(200).json({
       success: true,
@@ -68,16 +58,21 @@ export const changePassword = asyncHandler(
   }
 );
 
-export const closeProfile = asyncHandler(
+export const deleteProfile = asyncHandler(
   async (req: Request, res: Response) => {
     const { id } = req.user;
 
-    const deletedCount = await User.delete(id);
+    const deletedCount = await UserService.deleteProfile(id);
 
     if (deletedCount > 0) {
       return res
         .status(200)
         .json({ success: true, message: messages.auth.deletedProfile });
+    } else {
+      return res.status(404).json({
+        success: false,
+        message: messages.auth.noFoundProfileToDelete,
+      });
     }
   }
 );

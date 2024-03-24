@@ -1,11 +1,26 @@
 import User from '../models/user.model';
-import { ILogin, IUser } from '../types/user';
+import { IChangePassword, ILogin, IUser } from '../types/user';
 import messages from '../assets/json/messages.json';
-import { AuthenticationError, NotFoundError, TokenError } from '../errors';
-import { generateRandomString, generateToken, verifyPassword } from '../utils';
+import {
+  AuthenticationError,
+  NotFoundError,
+  TokenError,
+  ValidationError,
+} from '../errors';
+import {
+  deleteFile,
+  generateRandomString,
+  generateToken,
+  getFileSize,
+  hashPassword,
+  joinPaths,
+  readFile,
+  verifyPassword,
+} from '../utils';
 import config from '../config/env';
 import Token from '../models/token.model';
 import { EmailService } from '.';
+import { ObjectId } from 'mongoose';
 
 class UserService extends EmailService {
   /**
@@ -48,6 +63,16 @@ class UserService extends EmailService {
   }
 
   /**
+   * Get profile information
+   * @param userId objectId
+   * @returns information about logged in user without excluded fields
+   */
+  static async getUserInfo(userId: ObjectId) {
+    const excludedFields = '-createdAt -updatedAt -__v -_id -password';
+    return await User.findById(userId).select(excludedFields);
+  }
+
+  /**
    * Send password reset email
    * @param email valid email address
    */
@@ -81,6 +106,60 @@ class UserService extends EmailService {
     user.password = newPassword;
     await user.save();
     await Token.deleteToken(tokenRecord._id);
+  }
+
+  /**
+   * Change user password
+   * @param userId id of logged in user
+   * @param password new password
+   */
+  static async changePassword(userId: ObjectId, password: IChangePassword) {
+    const { newPassword, oldPassword, repeatPassword } = password;
+
+    if (newPassword !== repeatPassword) {
+      throw new ValidationError(messages.validation.password.notMatch);
+    }
+
+    const user = await User.getUserById(userId);
+
+    if (!user) {
+      throw new NotFoundError(messages.user.notFound);
+    }
+
+    const passwordMatch = await verifyPassword(oldPassword, user.password);
+
+    if (!passwordMatch) {
+      throw new ValidationError(messages.validation.password.incorrect);
+    }
+
+    const hashedPassword = await hashPassword(newPassword);
+
+    user.password = hashedPassword;
+    await user.save();
+  }
+
+  /**
+   * Delete existing one and update user avatar image
+   * @param userId ObjectId (id of logged in user)
+   * @param file Express.Multer.File | null image file or null to reset image
+   */
+  static async updateUserImage(userId: ObjectId, file?: Express.Multer.File) {
+    const existingUser = await User.getUserById(userId);
+
+    if (existingUser && existingUser.image) {
+      await deleteFile(joinPaths(existingUser.image));
+    }
+
+    await User.uploadImage(userId, file ? file.filename : null);
+  }
+
+  /**
+   * Delete your profile
+   * @param userId id of logged in user
+   * @returns deletion count (1 if successful, 0 if it's not)
+   */
+  static async deleteProfile(userId: ObjectId): Promise<number> {
+    return await User.deleteUser(userId);
   }
 }
 

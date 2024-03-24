@@ -1,7 +1,7 @@
-import { Request, Response, NextFunction } from "express";
-import Joi, { ObjectPropertiesSchema } from "joi";
-import pick from "lodash.pick";
-import { ValidationSchema } from "../types/enums";
+import { Request, Response, NextFunction } from 'express';
+import Joi, { ObjectPropertiesSchema } from 'joi';
+import pick from 'lodash.pick';
+import { ValidationSchema } from '../types/enums';
 
 const validation =
   (schema: ObjectPropertiesSchema) =>
@@ -10,6 +10,7 @@ const validation =
       ValidationSchema.PARAMS,
       ValidationSchema.QUERY,
       ValidationSchema.BODY,
+      ValidationSchema.FORM_DATA,
     ]);
     const object = pick(req, Object.keys(validSchema));
 

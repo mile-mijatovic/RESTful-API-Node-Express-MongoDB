@@ -20,7 +20,7 @@
       "invalid": "is not a valid. Please check and try again."
     },
     "contentType": {
-      "invalid": "image format is the only accepted file type for uploads"
+      "onlyImagesAllowed": "Only image files are allowed for upload. Please select an image file to proceed."
     },
     "date": {
       "format": "must be entered in YYYY-MM-DD format",
@@ -29,8 +29,8 @@
     "anyOnly": {
       "invalid": "and password do not match"
     },
-    "binaryMax": {
-      "invalid": "size must be less than or equal to 5 MB"
+    "fileSize": {
+      "imageSizeExceeded": "The image cannot be larger than 5 MB"
     }
   },
   "contact": {
@@ -61,7 +61,8 @@
     "incorrectCredentials": "Incorrect credentials. Please check and try again",
     "resetPassword": "If the user with the entered email exists, a reset link will be sent",
     "successfullyResetPassword": "Password has been changed successfully",
-    "deletedProfile": "Profile successfully deleted"
+    "deletedProfile": "Profile successfully deleted",
+    "noFoundProfileToDelete": "No profile found to delete."
   },
   "user": {
     "notFound": "User not found",

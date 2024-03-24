@@ -1,7 +1,7 @@
-import fs from "fs";
-import path from "path";
+import fs from 'fs';
+import path from 'path';
 
-const isProduction = process.env.NODE_ENV === "production";
+const isProduction = process.env.NODE_ENV === 'production';
 
 export const readFile = async (filePath: string): Promise<Buffer> => {
   return fs.promises.readFile(filePath);
@@ -20,7 +20,12 @@ export const deleteFile = async (filePath: string): Promise<void> => {
 
 export const joinPaths = (file: string): string => {
   const publicFolder = isProduction
-    ? "../../address-book/public/images"
-    : "../../public/images";
+    ? '../../address-book/public/images'
+    : '../../public/images';
   return path.resolve(__dirname, publicFolder, file);
+};
+
+export const deleteFileIfExists = async (filePath: string): Promise<void> => {
+  await fs.promises.access(filePath);
+  await fs.promises.unlink(filePath);
 };

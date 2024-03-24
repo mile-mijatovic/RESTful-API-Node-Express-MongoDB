@@ -2,11 +2,18 @@ import {
   generateRandomString,
   roundNumberToNearestInteger,
   getHighestNumber,
-} from "./helper.util";
-import { readFile, writeFile, deleteFile, joinPaths } from "./file.util";
-import asyncHandler from "./asyncHandler.util";
-import { hashPassword, verifyPassword } from "./password.util";
-import { generateToken, verifyToken } from "./token.util";
+} from './helper.util';
+import {
+  readFile,
+  writeFile,
+  deleteFile,
+  joinPaths,
+  deleteFileIfExists,
+  getFileSize,
+} from './file.util';
+import asyncHandler from './asyncHandler.util';
+import { hashPassword, verifyPassword } from './password.util';
+import { generateToken, verifyToken } from './token.util';
 
 export {
   hashPassword,
@@ -21,4 +28,6 @@ export {
   writeFile,
   deleteFile,
   joinPaths,
+  deleteFileIfExists,
+  getFileSize,
 };

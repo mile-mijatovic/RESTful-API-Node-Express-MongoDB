@@ -1,36 +1,35 @@
-import { NextFunction, Request, Response } from "express";
-import messages from "../assets/json/messages.json";
-import { ApiError } from "../errors";
-import Joi, { ValidationErrorItem } from "joi";
-import { HttpStatusCode } from "../types/enums";
+import { NextFunction, Request, Response } from 'express';
+import messages from '../assets/json/messages.json';
+import { ApiError } from '../errors';
+import Joi, { ValidationErrorItem } from 'joi';
+import { HttpStatusCode } from '../types/enums';
+import { MulterError } from 'multer';
 
 const getJoiMessage = (error: ValidationErrorItem) => {
   switch (error.type) {
-    case "string.empty":
+    case 'string.empty':
       return messages.validation.required;
-    case "string.email":
+    case 'string.email':
       return messages.validation.email.invalid;
-    case "string.pattern.base":
-      if (error.context?.key === "email") {
+    case 'string.pattern.base':
+      if (error.context?.key === 'email') {
         return messages.validation.email.invalid;
       } else if (
-        error.context?.key === "password" ||
-        error.context?.key === "newPassword"
+        error.context?.key === 'password' ||
+        error.context?.key === 'newPassword'
       ) {
         return messages.validation.password.invalid;
-      } else if (error.context?.key === "contactId") {
+      } else if (error.context?.key === 'contactId') {
         return messages.validation.objectId.invalid;
-      } else if (error.context?.key === "contentType") {
-        return messages.validation.contentType.invalid;
+      } else if (error.context?.key === 'contentType') {
+        return messages.validation.contentType.onlyImagesAllowed;
       }
-    case "date.base":
+    case 'date.base':
       return messages.validation.date.format;
-    case "date.max":
+    case 'date.max':
       return messages.validation.date.invalid;
-    case "any.only":
+    case 'any.only':
       return messages.validation.anyOnly.invalid;
-    case "binary.max":
-      return messages.validation.binaryMax.invalid;
     default:
       return error.message;
   }
@@ -51,6 +50,7 @@ const parseJoiErrors = (error: Joi.ValidationError) => {
 const generateErrorMessage = (
   error: Joi.ValidationError | ApiError | Error
 ): ErrorResponse => {
+  console.log('error', error instanceof MulterError);
   if (error instanceof Joi.ValidationError) {
     const parsedErrors = parseJoiErrors(error);
     const message = parsedErrors.map(
@@ -62,6 +62,15 @@ const generateErrorMessage = (
 
   if (error instanceof ApiError) {
     return { statusCode: error.status, message: error.message };
+  }
+
+  if (error instanceof MulterError) {
+    if (error.code === 'LIMIT_FILE_SIZE') {
+      return {
+        statusCode: HttpStatusCode.BAD_REQUEST,
+        message: messages.validation.fileSize.imageSizeExceeded,
+      };
+    }
   }
 
   return {
