@@ -9,7 +9,7 @@ export const readFile = async (filePath: string): Promise<Buffer> => {
 
 export const writeFile = async (
   filePath: string,
-  data: string
+  data: string,
 ): Promise<void> => {
   return fs.promises.writeFile(filePath, data);
 };

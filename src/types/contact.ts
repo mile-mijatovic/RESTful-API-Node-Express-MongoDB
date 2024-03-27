@@ -68,14 +68,14 @@ export interface ContactModel extends Model<IContact> {
   getContacts(
     addedBy: ObjectId,
     options: PaginationOptions,
-    search?: SearchOptions
+    search?: SearchOptions,
   ): Promise<ContactsResult>;
   getById(contactId: ObjectId, addedBy: ObjectId): Promise<IContact | null>;
   add(data: IContact, addedBy: ObjectId): Promise<IContact>;
   update(
     addedBy: ObjectId,
     contactId: ObjectId,
-    data: Partial<IContact>
+    data: Partial<IContact>,
   ): Promise<IContact | null>;
   delete(query: IQuery): Promise<boolean>;
   countContacts(addedBy: ObjectId): Promise<number>;

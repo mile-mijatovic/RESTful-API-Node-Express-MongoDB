@@ -21,7 +21,7 @@ class EmailService {
   static async sendEmail(
     to: string,
     subject: string,
-    html: string
+    html: string,
   ): Promise<void> {
     if (!this.transporter) {
       this.initializeTransporter();
@@ -46,7 +46,7 @@ class EmailService {
    */
   static async sendResetPasswordEmail(
     to: string,
-    token: string
+    token: string,
   ): Promise<void> {
     const subject = 'Reset password';
     const resetPasswordUrl = `${config.clientUrl}/api/auth/reset-password?token=${token}`;

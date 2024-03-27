@@ -1,7 +1,7 @@
-import mongoose, { ConnectOptions } from "mongoose";
-import MongoStore from "connect-mongo";
-import config from "./env";
-import { ConnectionError } from "../errors";
+import mongoose, { ConnectOptions } from 'mongoose';
+import MongoStore from 'connect-mongo';
+import config from './env';
+import { ConnectionError } from '../errors';
 
 export const connectToDatabase = async (): Promise<void> => {
   try {
@@ -9,16 +9,16 @@ export const connectToDatabase = async (): Promise<void> => {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     } as ConnectOptions);
-    console.log("Connected to MongoDB");
+    console.log('Connected to MongoDB');
 
     const db = mongoose.connection;
 
-    db.on("error", (err: Error) => {
+    db.on('error', (err: Error) => {
       throw new ConnectionError(err.message);
     });
 
-    db.on("disconnected", () => {
-      console.warn("MongoDB disconnected");
+    db.on('disconnected', () => {
+      console.warn('MongoDB disconnected');
 
       // Try to reconnect after 5 seconds
       setTimeout(() => {
@@ -29,8 +29,8 @@ export const connectToDatabase = async (): Promise<void> => {
       }, 5000);
     });
 
-    db.on("reconnected", () => {
-      console.log("MongoDB reconnected");
+    db.on('reconnected', () => {
+      console.log('MongoDB reconnected');
     });
   } catch (error) {
     throw new ConnectionError(`Error connecting to MongoDB: ${error}`);

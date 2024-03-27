@@ -28,7 +28,7 @@ const userSchema = new Schema<IUserDoc, IUserModel>(
       required: true,
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 class UserClass extends Model<IUserModel> {
@@ -46,7 +46,7 @@ class UserClass extends Model<IUserModel> {
 
   static async uploadImage(
     userId: ObjectId,
-    image: string
+    image: string,
   ): Promise<void | null> {
     return await this.findByIdAndUpdate(userId, { $set: { image } });
   }

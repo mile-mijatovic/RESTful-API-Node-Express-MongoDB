@@ -48,13 +48,12 @@ const parseJoiErrors = (error: Joi.ValidationError) => {
 };
 
 const generateErrorMessage = (
-  error: Joi.ValidationError | ApiError | Error
+  error: Joi.ValidationError | ApiError | Error,
 ): ErrorResponse => {
-  console.log('error', error instanceof MulterError);
   if (error instanceof Joi.ValidationError) {
     const parsedErrors = parseJoiErrors(error);
     const message = parsedErrors.map(
-      (error) => `${error.label} ${error.message}`
+      (error) => `${error.label} ${error.message}`,
     );
 
     return { statusCode: HttpStatusCode.BAD_REQUEST, message };
@@ -83,7 +82,7 @@ const errorHandler = (
   error: Error,
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   const { statusCode, message } = generateErrorMessage(error);
 

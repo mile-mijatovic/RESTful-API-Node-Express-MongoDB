@@ -1,4 +1,4 @@
-import { HttpStatusCode } from "../types/enums";
+import { HttpStatusCode } from '../types/enums';
 
 export class ApiError extends Error {
   status: HttpStatusCode;

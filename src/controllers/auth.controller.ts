@@ -13,7 +13,7 @@ export const register = asyncHandler(
     return res
       .status(201)
       .json({ success: true, message: messages.auth.registered });
-  }
+  },
 );
 
 // Login with email and password
@@ -26,7 +26,7 @@ export const login = asyncHandler(
     return res
       .status(200)
       .json({ success: true, message: messages.auth.loggedIn });
-  }
+  },
 );
 
 // Send password reset email
@@ -38,7 +38,7 @@ export const forgotPassword = asyncHandler(
       success: true,
       message: messages.auth.resetPassword,
     });
-  }
+  },
 );
 
 // Reset password
@@ -53,7 +53,7 @@ export const resetPassword = asyncHandler(
       success: true,
       message: messages.auth.successfullyResetPassword,
     });
-  }
+  },
 );
 
 export const logout = asyncHandler(
@@ -65,5 +65,5 @@ export const logout = asyncHandler(
         .status(200)
         .json({ success: true, message: messages.auth.loggedOut });
     });
-  }
+  },
 );

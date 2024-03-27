@@ -26,7 +26,7 @@ app.use(
     credentials: true,
     // TODO: Update production origin url
     origin: isProduction ? '*' : config.clientUrl,
-  })
+  }),
 );
 
 // Configure session
@@ -42,7 +42,7 @@ app.use(
       secure: isProduction,
       maxAge: +config.session.cookie.expiration,
     },
-  })
+  }),
 );
 
 // Routes
@@ -55,11 +55,11 @@ app.use(notFoundHandler);
 app.use(errorHandler);
 
 process.on('unhandledRejection', (error) =>
-  console.warn('Unhandled Rejection', error)
+  console.warn('Unhandled Rejection', error),
 );
 
 process.on('uncaughtException', (error) =>
-  console.warn('Uncaught Exception', error)
+  console.warn('Uncaught Exception', error),
 );
 
 app.on('error', (error: any) => {

@@ -52,7 +52,7 @@ const contactSchema = new Schema<IContact, ContactModel>({
 class ContactClass extends Model {
   static async isEmailExists(
     email: string,
-    addedBy: ObjectId
+    addedBy: ObjectId,
   ): Promise<boolean> {
     const query: Query = {
       'contact.email': email,
@@ -69,7 +69,7 @@ class ContactClass extends Model {
   static async update(
     addedBy: ObjectId,
     contactId: ObjectId,
-    data: Partial<IContact>
+    data: Partial<IContact>,
   ) {
     return await this.findByIdAndUpdate({ _id: contactId, addedBy }, data);
   }
@@ -86,7 +86,7 @@ class ContactClass extends Model {
   static async getContacts(
     addedBy: ObjectId,
     options: PaginationOptions,
-    search?: SearchOptions
+    search?: SearchOptions,
   ): Promise<IContact[]> {
     const { page, limit } = options;
 

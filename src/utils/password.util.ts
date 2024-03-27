@@ -1,5 +1,5 @@
-import bcrypt from "bcryptjs";
-import config from "../config/env";
+import bcrypt from 'bcryptjs';
+import config from '../config/env';
 
 export async function hashPassword(password: string) {
   const salt = await bcrypt.genSalt(Number(config.salt));

@@ -17,7 +17,7 @@ const upload = multer({
   fileFilter: function (req, file, cb) {
     if (!file.mimetype.startsWith('image')) {
       return cb(
-        new ValidationError(messages.validation.contentType.onlyImagesAllowed)
+        new ValidationError(messages.validation.contentType.onlyImagesAllowed),
       );
     }
 

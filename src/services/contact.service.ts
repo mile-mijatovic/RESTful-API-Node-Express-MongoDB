@@ -22,7 +22,7 @@ class ContactService {
   static async getContacts(
     addedBy: ObjectId,
     options: PaginationOptions,
-    search?: SearchOptions
+    search?: SearchOptions,
   ): Promise<ContactsResult> {
     const { page, limit } = options;
     const currentPage = getHighestNumber(page);
@@ -113,7 +113,7 @@ class ContactService {
   static async update(
     addedBy: ObjectId,
     contactId: ObjectId,
-    data: Partial<IContact>
+    data: Partial<IContact>,
   ) {
     const result = await Contact.update(addedBy, contactId, data);
 

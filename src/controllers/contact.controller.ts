@@ -44,7 +44,7 @@ export const getContactById = asyncHandler(
     const foundContact = await ContactService.getContactById(contact, id);
 
     return res.status(200).json({ success: true, contact: foundContact });
-  }
+  },
 );
 
 export const addNewContact = asyncHandler(
@@ -58,7 +58,7 @@ export const addNewContact = asyncHandler(
       success: true,
       message: messages.contact.added,
     });
-  }
+  },
 );
 
 export const updateContact = asyncHandler(
@@ -82,7 +82,7 @@ export const updateContact = asyncHandler(
     }
 
     return res.status(200).json({ success: true, message });
-  }
+  },
 );
 
 export const deleteContact = asyncHandler(
@@ -99,5 +99,5 @@ export const deleteContact = asyncHandler(
     return res
       .status(200)
       .json({ success: true, message: messages.contact.deleted });
-  }
+  },
 );

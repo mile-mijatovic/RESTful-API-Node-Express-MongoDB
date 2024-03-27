@@ -16,7 +16,7 @@ export const getUserInfo = asyncHandler(async (req: Request, res: Response) => {
 export const uploadImage = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   const { id } = req.user;
 
@@ -57,7 +57,7 @@ export const changePassword = asyncHandler(
       success: true,
       message: messages.auth.successfullyResetPassword,
     });
-  }
+  },
 );
 
 export const deleteProfile = asyncHandler(
@@ -69,5 +69,5 @@ export const deleteProfile = asyncHandler(
     return res
       .status(200)
       .json({ success: true, message: messages.auth.deletedProfile });
-  }
+  },
 );

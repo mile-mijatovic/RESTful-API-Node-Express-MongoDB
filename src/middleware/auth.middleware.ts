@@ -1,8 +1,8 @@
-import { NextFunction, Request, Response } from "express";
-import messages from "../assets/json/messages.json";
-import { AuthenticationError } from "../errors";
-import config from "../config/env";
-import { verifyToken } from "../utils";
+import { NextFunction, Request, Response } from 'express';
+import messages from '../assets/json/messages.json';
+import { AuthenticationError } from '../errors';
+import config from '../config/env';
+import { verifyToken } from '../utils';
 
 const requireAuth = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -12,7 +12,7 @@ const requireAuth = async (req: Request, res: Response, next: NextFunction) => {
 
     const decodedToken = await verifyToken(
       req.session.token,
-      config.jwt.secret
+      config.jwt.secret,
     );
 
     if (!decodedToken) {

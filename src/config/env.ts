@@ -1,6 +1,6 @@
-import "dotenv/config";
-import { envVarsSchema } from "../validation";
-import { ValidationError } from "../errors";
+import 'dotenv/config';
+import { envVarsSchema } from '../validation';
+import { ValidationError } from '../errors';
 
 const { value: envVars, error } = envVarsSchema.unknown().validate(process.env);
 
