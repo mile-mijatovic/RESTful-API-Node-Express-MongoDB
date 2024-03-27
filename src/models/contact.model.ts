@@ -1,16 +1,13 @@
-import { Model, model, ObjectId, Schema } from "mongoose";
-import { NotFoundError, ValidationError } from "../errors";
-import messages from "../assets/json/messages.json";
+import { Model, model, ObjectId, Schema } from 'mongoose';
 import {
   ContactModel,
-  FilterOptions,
   IContact,
   IQuery,
   PaginationOptions,
   Query,
-  QueryResult,
-} from "../types/contact";
-import { getHighestNumber, roundNumberToNearestInteger } from "../utils";
+  SearchOptions,
+} from '../types/contact';
+import { getHighestNumber } from '../utils';
 
 const contactSchema = new Schema<IContact, ContactModel>({
   contact: {
@@ -47,7 +44,7 @@ const contactSchema = new Schema<IContact, ContactModel>({
   },
   addedBy: {
     type: Schema.ObjectId,
-    ref: "User",
+    ref: 'User',
   },
   favorite: { type: Boolean, default: false },
 });
@@ -58,19 +55,40 @@ class ContactClass extends Model {
     addedBy: ObjectId
   ): Promise<boolean> {
     const query: Query = {
-      "contact.email": email,
+      'contact.email': email,
       addedBy,
     };
 
-    const exist = await this.findOne(query);
-    return !!exist;
+    return !!(await this.findOne(query));
   }
 
-  static async getAll(
+  static async add(data: IContact): Promise<IContact> {
+    return await this.create(data);
+  }
+
+  static async update(
+    addedBy: ObjectId,
+    contactId: ObjectId,
+    data: Partial<IContact>
+  ) {
+    return await this.findByIdAndUpdate({ _id: contactId, addedBy }, data);
+  }
+
+  static async delete(query: IQuery): Promise<boolean> {
+    const result = await this.findByIdAndDelete(query);
+    return !!result;
+  }
+
+  static async getById(contactId: ObjectId): Promise<IContact | null> {
+    return await this.findById(contactId);
+  }
+
+  static async getContacts(
+    addedBy: ObjectId,
     options: PaginationOptions,
-    filter?: FilterOptions
-  ): Promise<QueryResult> {
-    const { addedBy, page, limit } = options;
+    search?: SearchOptions
+  ): Promise<IContact[]> {
+    const { page, limit } = options;
 
     const currentPage = getHighestNumber(page);
     const contactsPerPage = getHighestNumber(limit);
@@ -78,110 +96,28 @@ class ContactClass extends Model {
 
     let query = { addedBy };
 
-    if (filter) {
-      Object.keys(filter).forEach((key: string) => {
-        const value = filter[key];
+    if (search) {
+      Object.keys(search).forEach((key: string) => {
+        const value = search[key];
         const k = `contact.${key}`;
-        if (typeof value === "string") {
-          query[k] = { $regex: value, $options: "i" };
+        if (typeof value === 'string') {
+          query[k] = new RegExp(value, 'i');
         } else {
           query[k] = value;
         }
       });
     }
-    const contactPromise: IContact[] = await this.find(query)
-      .skip(skip)
-      .limit(contactsPerPage)
-      .sort({ createdAt: -1 });
 
-    const countPromise = await this.countDocuments({ addedBy });
-
-    const [totalResults, contacts]: [number, IContact[]] = await Promise.all([
-      countPromise,
-      contactPromise,
-    ]);
-
-    const totalPages = roundNumberToNearestInteger(
-      totalResults,
-      contactsPerPage
-    );
-
-    if (totalResults && currentPage > totalPages)
-      throw new NotFoundError(`Page ${page} was not found.`);
-
-    const result: QueryResult = {
-      pagination: {
-        page: currentPage,
-        limit: contactsPerPage,
-        total: totalPages,
-      },
-      contacts,
-    };
-
-    return result;
+    return await this.find(query).skip(skip).limit(contactsPerPage);
   }
 
-  static async getById(
-    contactId: string,
-    addedBy: ObjectId
-  ): Promise<IContact | null> {
-    const query: IQuery = { _id: contactId, addedBy };
-
-    const contact = await this.findOne(query);
-
-    if (!contact) {
-      throw new NotFoundError(messages.contact.notFound);
-    }
-
-    return contact;
-  }
-
-  static async add(body: IContact, addedBy: ObjectId): Promise<void> {
-    const exists = await this.isEmailExists(body.contact.email, addedBy);
-
-    if (exists) throw new ValidationError(messages.contact.exists);
-
-    const savedContact: IContact = await this.create({
-      ...body,
-      addedBy,
-    });
-
-    if (!savedContact) {
-      throw new NotFoundError(messages.contact.failed);
-    }
-  }
-
-  static async update(body: IContact, contactId: string, addedBy: ObjectId) {
-    const result = await this.findOneAndUpdate(
-      { _id: contactId, addedBy },
-      body,
-      {
-        new: true,
-      }
-    );
-
-    if (!result) {
-      throw new NotFoundError(messages.contact.notFound);
-    }
-
-    return result;
-  }
-
-  static async delete(contactId: string, addedBy: ObjectId) {
-    let query: IQuery = { _id: contactId, addedBy };
-
-    const result = await this.findOneAndDelete(query);
-
-    if (!result) {
-      throw new NotFoundError(messages.contact.notFound);
-    }
-
-    return result;
+  static async countContacts(query: any): Promise<number> {
+    return await this.countDocuments(query);
   }
 }
 
 contactSchema.loadClass(ContactClass);
 
-const Contact = model<IContact, ContactModel>("Contact", contactSchema);
+const Contact = model<IContact, ContactModel>('Contact', contactSchema);
 
 export default Contact;

@@ -1,4 +1,4 @@
-import { Document, Model, ObjectId, Types } from "mongoose";
+import { Document, Model, ObjectId } from 'mongoose';
 
 export interface IContact extends Document {
   firstName: string;
@@ -25,17 +25,16 @@ export interface IContact extends Document {
     slack: string;
     skype: string;
   };
-  addedBy: Types.ObjectId;
+  addedBy: ObjectId;
   favorite: Boolean;
 }
 
 export interface PaginationOptions {
-  addedBy: ObjectId;
   page: string;
   limit: string;
 }
 
-export interface FilterOptions {
+export interface SearchOptions {
   contact: {
     firstName?: string;
     lastName?: string;
@@ -45,7 +44,7 @@ export interface FilterOptions {
   };
 }
 
-export interface QueryResult {
+export interface ContactsResult {
   pagination: {
     page: number;
     limit: number;
@@ -55,23 +54,29 @@ export interface QueryResult {
 }
 
 export interface IQuery {
-  _id?: string;
+  _id?: ObjectId;
   addedBy: ObjectId;
 }
 
 export interface Query {
-  "contact.email": string;
+  'contact.email': string;
   addedBy?: ObjectId;
 }
 
 export interface ContactModel extends Model<IContact> {
-  isEmailExists(email: string, addedBy?: string): Promise<boolean>;
-  getAll(
+  isEmailExists(email: string, addedBy?: ObjectId): Promise<boolean>;
+  getContacts(
+    addedBy: ObjectId,
     options: PaginationOptions,
-    filter?: Record<string, any>
-  ): Promise<QueryResult>;
-  getById(contactId: string, addedBy: ObjectId): Promise<IContact>;
-  add(body: IContact, addedBy: ObjectId): Promise<void>;
-  update(body: IContact, contactId: string, addedBy: ObjectId): Promise<void>;
-  delete(contactId: string, addedBy: ObjectId): Promise<void>;
+    search?: SearchOptions
+  ): Promise<ContactsResult>;
+  getById(contactId: ObjectId, addedBy: ObjectId): Promise<IContact | null>;
+  add(data: IContact, addedBy: ObjectId): Promise<IContact>;
+  update(
+    addedBy: ObjectId,
+    contactId: ObjectId,
+    data: Partial<IContact>
+  ): Promise<IContact | null>;
+  delete(query: IQuery): Promise<boolean>;
+  countContacts(addedBy: ObjectId): Promise<number>;
 }

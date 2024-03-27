@@ -9,11 +9,11 @@ import {
   deleteFile,
   joinPaths,
   deleteFileIfExists,
-  getFileSize,
 } from './file.util';
 import asyncHandler from './asyncHandler.util';
 import { hashPassword, verifyPassword } from './password.util';
 import { generateToken, verifyToken } from './token.util';
+import { stringToObjectId } from './mongo';
 
 export {
   hashPassword,
@@ -29,5 +29,5 @@ export {
   deleteFile,
   joinPaths,
   deleteFileIfExists,
-  getFileSize,
+  stringToObjectId,
 };

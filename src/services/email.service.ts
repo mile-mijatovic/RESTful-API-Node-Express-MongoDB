@@ -12,6 +12,12 @@ class EmailService {
     }
   }
 
+  /**
+   * Send an email
+   * @param to send to
+   * @param subject email subject
+   * @param html email content
+   */
   static async sendEmail(
     to: string,
     subject: string,
@@ -33,6 +39,11 @@ class EmailService {
     await this.transporter.sendMail(mailOptions);
   }
 
+  /**
+   * Send reset password email
+   * @param to send to
+   * @param token reset password token
+   */
   static async sendResetPasswordEmail(
     to: string,
     token: string

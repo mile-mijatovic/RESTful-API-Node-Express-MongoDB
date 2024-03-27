@@ -1,21 +1,22 @@
-import { NextFunction, Request, Response } from "express";
-import Contact from "../models/contact.model";
-import { IContact, PaginationOptions } from "../types/contact";
-import { asyncHandler } from "../utils";
-import messages from "../assets/json/messages.json";
+import { NextFunction, Request, Response } from 'express';
+import { IContact, PaginationOptions } from '../types/contact';
+import { asyncHandler, stringToObjectId } from '../utils';
+import messages from '../assets/json/messages.json';
+import { ContactService } from '../services';
 
 export const getContacts = asyncHandler(async (req: Request, res: Response) => {
   const { id } = req.user;
 
-  const { page = 1, limit = 5, ...filter } = req.query;
+  const { page = 1, limit = 5, ...searchOptions } = req.query;
 
-  const options = {
-    addedBy: id,
+  const pagination = {
     page,
     limit,
   } as PaginationOptions;
 
-  const contacts = await Contact.getAll(options, filter);
+  const contacts = await ContactService.getContacts(id, pagination, {
+    contact: searchOptions,
+  });
 
   if (contacts.contacts.length === 0) {
     return res.status(200).json({
@@ -36,9 +37,13 @@ export const getContactById = asyncHandler(
     const { id } = req.user;
     const { contactId } = req.params;
 
-    const contact = await Contact.getById(contactId, id);
+    const contact = stringToObjectId(contactId);
 
-    return res.status(200).json({ success: true, contact });
+    // id - addedBy logged in user
+    // contact - contact we want to fetch
+    const foundContact = await ContactService.getContactById(contact, id);
+
+    return res.status(200).json({ success: true, contact: foundContact });
   }
 );
 
@@ -47,7 +52,7 @@ export const addNewContact = asyncHandler(
     const { id } = req.user;
     const contactData = req.body as IContact;
 
-    await Contact.add(contactData, id);
+    await ContactService.add(id, contactData);
 
     return res.status(201).json({
       success: true,
@@ -59,10 +64,14 @@ export const addNewContact = asyncHandler(
 export const updateContact = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
     const { id } = req.user;
-    const contactData = req.body as IContact;
+    const contactData = req.body as Partial<IContact>;
     const { contactId } = req.params;
 
-    await Contact.update(contactData, contactId, id);
+    const contact = stringToObjectId(contactId);
+
+    // id - addedBy logged in user
+    // contact - contact id which we want to update
+    await ContactService.update(id, contact, contactData);
 
     let message = messages.contact.updated;
 
@@ -81,7 +90,11 @@ export const deleteContact = asyncHandler(
     const { id } = req.user;
     const { contactId } = req.params;
 
-    await Contact.delete(contactId, id);
+    const contact = stringToObjectId(contactId);
+
+    // contactId - contact id which we want to delete
+    // id - addedBy logged in user
+    await ContactService.delete(contact, id);
 
     return res
       .status(200)

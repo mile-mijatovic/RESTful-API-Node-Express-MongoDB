@@ -26,7 +26,9 @@ export const uploadImage = async (
     }
 
     await UserService.updateUserImage(id, req.file);
-    res.status(200).json({ success: true, message: messages.image.uploaded });
+    return res
+      .status(200)
+      .json({ success: true, message: messages.image.uploaded });
   } catch (error) {
     if (req.file) {
       await deleteFile(req.file.path);
@@ -62,17 +64,10 @@ export const deleteProfile = asyncHandler(
   async (req: Request, res: Response) => {
     const { id } = req.user;
 
-    const deletedCount = await UserService.deleteProfile(id);
+    await UserService.deleteProfile(id);
 
-    if (deletedCount > 0) {
-      return res
-        .status(200)
-        .json({ success: true, message: messages.auth.deletedProfile });
-    } else {
-      return res.status(404).json({
-        success: false,
-        message: messages.auth.noFoundProfileToDelete,
-      });
-    }
+    return res
+      .status(200)
+      .json({ success: true, message: messages.auth.deletedProfile });
   }
 );
